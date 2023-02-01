@@ -82,14 +82,14 @@
 //#define GDISP_NEED_QUERY                             FALSE
 //#define GDISP_NEED_MULTITHREAD                       FALSE
 //#define GDISP_NEED_STREAMING                         FALSE
-//#define GDISP_NEED_TEXT                              FALSE
+#define GDISP_NEED_TEXT                              TRUE
 //    #define GDISP_NEED_TEXT_WORDWRAP                 FALSE
 //    #define GDISP_NEED_TEXT_BOXPADLR                 1
 //    #define GDISP_NEED_TEXT_BOXPADTB                 1
 //    #define GDISP_NEED_ANTIALIAS                     FALSE
 //    #define GDISP_NEED_UTF8                          FALSE
 //    #define GDISP_NEED_TEXT_KERNING                  FALSE
-//    #define GDISP_INCLUDE_FONT_UI1                   FALSE
+    #define GDISP_INCLUDE_FONT_UI1                   TRUE
 //    #define GDISP_INCLUDE_FONT_UI2                   FALSE		// The smallest preferred font.
 //    #define GDISP_INCLUDE_FONT_LARGENUMBERS          FALSE
 //    #define GDISP_INCLUDE_FONT_DEJAVUSANS10          FALSE
@@ -151,8 +151,8 @@
 
 //#define GDISP_DEFAULT_ORIENTATION                    GDISP_ROTATE_LANDSCAPE    // If not defined the native hardware orientation is used.
 //#define GDISP_LINEBUF_SIZE                           128
-//#define GDISP_STARTUP_COLOR                          Black
-//#define GDISP_NEED_STARTUP_LOGO                      TRUE
+// #define GDISP_STARTUP_COLOR                          White
+#define GDISP_NEED_STARTUP_LOGO                      FALSE
 
 //#define GDISP_TOTAL_DISPLAYS                         1
 
@@ -185,7 +185,7 @@
 ///////////////////////////////////////////////////////////////////////////
 // GWIN                                                                  //
 ///////////////////////////////////////////////////////////////////////////
-//#define GFX_USE_GWIN                                 FALSE
+#define GFX_USE_GWIN                                 TRUE
 
 //#define GWIN_NEED_WINDOWMANAGER                      FALSE
 //    #define GWIN_REDRAW_IMMEDIATE                    FALSE
@@ -207,7 +207,7 @@
 //#define GWIN_FOCUS_HIGHLIGHT_WIDTH                   1
 //    #define GWIN_NEED_LABEL                          FALSE
 //        #define GWIN_LABEL_ATTRIBUTE                 FALSE
-//    #define GWIN_NEED_BUTTON                         FALSE
+    #define GWIN_NEED_BUTTON                         TRUE
 //        #define GWIN_BUTTON_LAZY_RELEASE             FALSE
 //    #define GWIN_NEED_SLIDER                         FALSE
 //        #define GWIN_SLIDER_NOSNAP                   FALSE
@@ -228,8 +228,8 @@
 //    #define GWIN_FLAT_STYLING                        FALSE
 //    #define GWIN_WIDGET_TAGS                         FALSE
 
-//#define GWIN_NEED_CONTAINERS                         FALSE
-//    #define GWIN_NEED_CONTAINER                      FALSE
+#define GWIN_NEED_CONTAINERS                         TRUE
+    #define GWIN_NEED_CONTAINER                      TRUE
 //    #define GWIN_NEED_FRAME                          FALSE
 //    #define GWIN_NEED_TABSET                         FALSE
 //        #define GWIN_TABSET_TABHEIGHT                18
@@ -273,9 +273,9 @@
 ///////////////////////////////////////////////////////////////////////////
 // GINPUT                                                                //
 ///////////////////////////////////////////////////////////////////////////
-//#define GFX_USE_GINPUT                               FALSE
+#define GFX_USE_GINPUT                               TRUE
 
-//#define GINPUT_NEED_MOUSE                            FALSE
+#define GINPUT_NEED_MOUSE                            TRUE
 //    #define GINPUT_TOUCH_STARTRAW                    FALSE
 //    #define GINPUT_TOUCH_NOTOUCH                     FALSE
 //    #define GINPUT_TOUCH_NOCALIBRATE                 FALSE
@@ -286,7 +286,7 @@
 //    #define GINPUT_TOUCH_USER_CALIBRATION_LOAD       FALSE
 //    #define GINPUT_TOUCH_USER_CALIBRATION_SAVE       FALSE
 //    #define GMOUSE_DRIVER_LIST                       GMOUSEVMT_Win32, GMOUSEVMT_Win32
-//#define GINPUT_NEED_KEYBOARD                         FALSE
+#define GINPUT_NEED_KEYBOARD                         TRUE
 //    #define GINPUT_KEYBOARD_POLL_PERIOD              200
 //    #define GKEYBOARD_DRIVER_LIST                    GKEYBOARDVMT_Win32, GKEYBOARDVMT_Win32
 //    #define GKEYBOARD_LAYOUT_OFF                     FALSE
