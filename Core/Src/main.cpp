@@ -62,21 +62,19 @@
 
 extern void  prvInitialiseHeap( void );
 
-
 static GListener gl;
 static GHandle   ghButton1;
 static GHandle      ghContainer;
-
 static uint8_t key = 0;
-
 static GEvent* pe;
+
+
 
 static void createWidgets(void) {
 	GWidgetInit	wi;
 
 	// Apply some default values for GWIN
 	gwinWidgetClearInit(&wi);
-
 
 
     // Apply the container parameters
@@ -107,7 +105,7 @@ static void createWidgets(void) {
 }
 
 
-void TaskTest(void *arg)
+static void TaskTest(void *arg)
 {
     for(;;)
     {
@@ -117,13 +115,24 @@ void TaskTest(void *arg)
 }
 
 
-void EventLoop(void *pvParameters)
+static void UgfxTask(void *pvParameters)
 {
 	GEvent* pe;
 	static const orientation_t	orients[] = { GDISP_ROTATE_0, GDISP_ROTATE_90, GDISP_ROTATE_180, GDISP_ROTATE_270 };
 	unsigned which = 0;
 
-	while(1) {
+
+	gfxInit();
+	gdispClear(Silver);
+
+	createWidgets();
+
+	geventListenerInit(&gl);
+	gwinAttachListener(&gl);
+	geventAttachSource(&gl, ginputGetKeyboard(0), 0);
+
+	for(;;) 
+	{
 		// Get an Event
 		pe = geventEventWait(&gl, TIME_INFINITE);
 
@@ -163,19 +172,8 @@ int main( void )
 
     prvInitialiseHeap();
 
-
-    gfxInit();
-	gdispClear(Silver);
-
-
-	createWidgets();
-
-	geventListenerInit(&gl);
-	gwinAttachListener(&gl);
-	geventAttachSource(&gl, ginputGetKeyboard(0), 0);
-
     xTaskCreate(TaskTest, "Test", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(EventLoop, "EventLoop", configMINIMAL_STACK_SIZE, NULL, 0, NULL);
+    xTaskCreate(UgfxTask, "Ugfx", configMINIMAL_STACK_SIZE, NULL, 0, NULL);
 
 
     vTaskStartScheduler();
