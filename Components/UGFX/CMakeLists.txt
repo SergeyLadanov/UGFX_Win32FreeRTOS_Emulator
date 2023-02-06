@@ -20,6 +20,7 @@ include_directories(
     Config
     ugfx_2.9
     ugfx_2.9/drivers/multiple/Win32
+    RomFiles
 )
 
 # Creating static library

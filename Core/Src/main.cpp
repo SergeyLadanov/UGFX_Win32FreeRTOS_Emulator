@@ -64,9 +64,12 @@ extern void  prvInitialiseHeap( void );
 
 static GListener gl;
 static GHandle   ghButton1;
-static GHandle      ghContainer;
+static GHandle      ghContainer, image1, image2;
 static uint8_t key = 0;
 static GEvent* pe;
+
+GTimer GT1;
+
 
 
 
@@ -100,7 +103,30 @@ static void createWidgets(void) {
 	// Create the actual button
 	ghButton1 = gwinButtonCreate(0, &wi);
 
-	//gwinShow(ghContainer);
+
+	wi.g.show = false;
+
+	// Apply the button parameters
+	wi.g.width = 32;
+	wi.g.height = 32;
+	wi.g.y = 50;
+	wi.g.x = 50;
+
+	image1 = gwinImageCreate(0, &wi.g);
+	gwinImageOpenFile(image1, "menu_display.png");
+	gwinShow(image1);
+
+
+	wi.g.show = false;
+	// Apply the button parameters
+	wi.g.width = 32;
+	wi.g.height = 32;
+	wi.g.y = 40;
+	wi.g.x = 40;
+
+	image2 = gwinImageCreate(0, &wi.g);
+	gwinImageOpenFile(image2, "menu_display.png");
+	gwinShow(image2);
 
 }
 
@@ -114,6 +140,37 @@ static void TaskTest(void *arg)
     }
 }
 
+static void callback1(void* arg)
+{
+    (void)arg;
+	static bool direction = false;
+	int16_t x = 0, y = 0;
+	y = gwinGetScreenY(image1);	
+	x = gwinGetScreenX(image1);
+
+	if (!direction)
+	{
+		y = y + 5;
+	}
+	else
+	{
+		y = y - 5;
+	}
+
+	if (y >= 300)
+	{
+		direction = true;
+	}
+
+
+	if (y <= -15)
+	{
+		direction = false;
+	}
+	
+	gwinMove(image1, x, y);
+}
+
 
 static void UgfxTask(void *pvParameters)
 {
@@ -121,15 +178,21 @@ static void UgfxTask(void *pvParameters)
 	static const orientation_t	orients[] = { GDISP_ROTATE_0, GDISP_ROTATE_90, GDISP_ROTATE_180, GDISP_ROTATE_270 };
 	unsigned which = 0;
 
-
+	
 	gfxInit();
-	gdispClear(Silver);
+	//gwinSetWindowManager((GWindowManager *) &CustomWindowManager);
+	gdispClear(Black);
+	gwinSetDefaultFont(gdispOpenFont("UI2"));
+	
 
 	createWidgets();
 
 	geventListenerInit(&gl);
 	gwinAttachListener(&gl);
-	geventAttachSource(&gl, ginputGetKeyboard(0), 0);
+	geventAttachSource(&gl, ginputGetKeyboard(GKEYBOARD_ALL_INSTANCES), 0);
+
+	/* continious mode - callback1() called without any argument every 250ms */
+    gtimerStart(&GT1, callback1, NULL, TRUE, 50);
 
 	for(;;) 
 	{
@@ -144,17 +207,36 @@ static void UgfxTask(void *pvParameters)
 				if (key == GKEY_UP)
 				{
 					printf("Up\r\n");
+					int16_t x = 0, y = 0;
+					y = gwinGetScreenY(image1);	
+					x = gwinGetScreenX(image1);
+					y = y - 2;
+					gwinMove(image1, x, y);
 				}
 
 				if (key == GKEY_DOWN)
 				{
 					printf("Down\r\n");
+					int16_t x = 0, y = 0;
+					y = gwinGetScreenY(image1);	
+					x = gwinGetScreenX(image1);
+					y = y + 2;
+					gwinMove(image1, x, y);
 				}
 				
 				break;
 			case GEVENT_GWIN_BUTTON:
 			
 				printf("Gwin button pressed\r\n");
+
+				{
+					int16_t x = 0, y = 0;
+					y = gwinGetScreenY(image1);	
+					x = gwinGetScreenX(image1);
+					y = y + 5;
+					gwinMove(image1, x, y);
+				}
+
 				break;
 
 			default:
@@ -170,10 +252,10 @@ static void UgfxTask(void *pvParameters)
 int main( void )
 {
 
-    prvInitialiseHeap();
+   prvInitialiseHeap();
 
     xTaskCreate(TaskTest, "Test", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(UgfxTask, "Ugfx", configMINIMAL_STACK_SIZE, NULL, 0, NULL);
+    xTaskCreate(UgfxTask, "Ugfx", configMINIMAL_STACK_SIZE * 4, NULL, 0, NULL);
 
 
     vTaskStartScheduler();

@@ -913,18 +913,18 @@ static void WM_Move(GHandle gh, gCoord x, gCoord y) {
 	}
 
 	// Make sure we are positioned in the appropriate area
-	if (x+gh->width > u)	x = u-gh->width;
-	if (x < 0) x = 0;
-	if (y+gh->height > v)	y = v-gh->height;
-	if (y < 0) y = 0;
+	// if (x+gh->width > u)	x = u-gh->width;
+	// if (x < 0) x = 0;
+	// if (y+gh->height > v)	y = v-gh->height;
+	// if (y < 0) y = 0;
 
 	// Make sure we don't overflow the appropriate area
 	u -= x;
 	v -= y;
-	if (gh->width < u)	u = gh->width;
-	if (gh->height < v)	v = gh->height;
-	if (u != gh->width || v != gh->height)
-		WM_Size(gh, u, v);
+	// if (gh->width < u)	u = gh->width;
+	// if (gh->height < v)	v = gh->height;
+	// if (u != gh->width || v != gh->height)
+	// 	WM_Size(gh, u, v);
 
 	#if GWIN_NEED_CONTAINERS
 		if (gh->parent) {
