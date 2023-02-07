@@ -57,6 +57,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "gfx.h"
+#include "MainScreen.hpp"
+#include "UGFX_GuiAppBase.hpp"
 
 
 
@@ -70,63 +72,68 @@ static GEvent* pe;
 
 GTimer GT1;
 
+UGFX_ScreenBase *test;
+UGFX_GuiAppBase AppTest;
+
 
 
 
 static void createWidgets(void) {
-	GWidgetInit	wi;
 
-	// Apply some default values for GWIN
-	gwinWidgetClearInit(&wi);
+	test = new MainScreen();
+	// GWidgetInit	wi;
 
-
-    // Apply the container parameters
-    // wi.g.show = FALSE;
-    // wi.g.width = 128;
-    // wi.g.height = 64;
-    // wi.g.y = 0;
-    // wi.g.x = 0;
-    // wi.text = "Container";
-    // ghContainer = gwinContainerCreate(0, &wi, GWIN_CONTAINER_BORDER);
+	// // Apply some default values for GWIN
+	// gwinWidgetClearInit(&wi);
 
 
-	wi.g.show = TRUE;
-
-	// Apply the button parameters
-	wi.g.width = 100;
-	wi.g.height = 30;
-	wi.g.y = 10;
-	wi.g.x = 10;
-	wi.text = "Test";
-	wi.g.parent = NULL;
-
-	// Create the actual button
-	ghButton1 = gwinButtonCreate(0, &wi);
+    // // Apply the container parameters
+    // // wi.g.show = FALSE;
+    // // wi.g.width = 128;
+    // // wi.g.height = 64;
+    // // wi.g.y = 0;
+    // // wi.g.x = 0;
+    // // wi.text = "Container";
+    // // ghContainer = gwinContainerCreate(0, &wi, GWIN_CONTAINER_BORDER);
 
 
-	wi.g.show = false;
+	// wi.g.show = TRUE;
 
-	// Apply the button parameters
-	wi.g.width = 32;
-	wi.g.height = 32;
-	wi.g.y = 50;
-	wi.g.x = 50;
+	// // Apply the button parameters
+	// wi.g.width = 100;
+	// wi.g.height = 30;
+	// wi.g.y = 10;
+	// wi.g.x = 10;
+	// wi.text = "Test";
+	// wi.g.parent = NULL;
 
-	image1 = gwinImageCreate(0, &wi.g);
-	gwinImageOpenFile(image1, "menu_display.png");
-	gwinShow(image1);
+	// // Create the actual button
+	// ghButton1 = gwinButtonCreate(0, &wi);
 
 
-	wi.g.show = false;
-	// Apply the button parameters
-	wi.g.width = 32;
-	wi.g.height = 32;
-	wi.g.y = 40;
-	wi.g.x = 40;
+	// wi.g.show = false;
 
-	image2 = gwinImageCreate(0, &wi.g);
-	gwinImageOpenFile(image2, "menu_display.png");
-	gwinShow(image2);
+	// // Apply the button parameters
+	// wi.g.width = 32;
+	// wi.g.height = 32;
+	// wi.g.y = 50;
+	// wi.g.x = 50;
+
+	// image1 = gwinImageCreate(0, &wi.g);
+	// gwinImageOpenFile(image1, "menu_display.png");
+	// gwinShow(image1);
+
+
+	// wi.g.show = false;
+	// // Apply the button parameters
+	// wi.g.width = 32;
+	// wi.g.height = 32;
+	// wi.g.y = 40;
+	// wi.g.x = 40;
+
+	// image2 = gwinImageCreate(0, &wi.g);
+	// gwinImageOpenFile(image2, "menu_display.png");
+	// gwinShow(image2);
 
 }
 
@@ -144,104 +151,37 @@ static void callback1(void* arg)
 {
     (void)arg;
 	static bool direction = false;
-	int16_t x = 0, y = 0;
-	y = gwinGetScreenY(image1);	
-	x = gwinGetScreenX(image1);
 
 	if (!direction)
 	{
-		y = y + 5;
+		AppTest.GoToScreen<MainScreen>();
 	}
 	else
 	{
-		y = y - 5;
+		AppTest.DestroyScreen();
 	}
 
-	if (y >= 300)
-	{
-		direction = true;
-	}
-
-
-	if (y <= -15)
-	{
-		direction = false;
-	}
-	
-	gwinMove(image1, x, y);
+	direction = !direction;
 }
 
 
 static void UgfxTask(void *pvParameters)
 {
 	GEvent* pe;
-	static const orientation_t	orients[] = { GDISP_ROTATE_0, GDISP_ROTATE_90, GDISP_ROTATE_180, GDISP_ROTATE_270 };
-	unsigned which = 0;
 
-	
 	gfxInit();
-	//gwinSetWindowManager((GWindowManager *) &CustomWindowManager);
 	gdispClear(Black);
 	gwinSetDefaultFont(gdispOpenFont("UI2"));
 	
 
-	createWidgets();
-
-	geventListenerInit(&gl);
-	gwinAttachListener(&gl);
-	geventAttachSource(&gl, ginputGetKeyboard(GKEYBOARD_ALL_INSTANCES), 0);
-
+	//createWidgets();
+	AppTest.Start();
 	/* continious mode - callback1() called without any argument every 250ms */
-    gtimerStart(&GT1, callback1, NULL, TRUE, 50);
+    gtimerStart(&GT1, callback1, NULL, TRUE, 2000);
 
 	for(;;) 
 	{
-		// Get an Event
-		pe = geventEventWait(&gl, TIME_INFINITE);
-
-		switch(pe->type) {
-            	case GEVENT_KEYBOARD:
-				printf("Keyboard\r\n");
-
-				key = ((GEventKeyboard *) pe)->c[0];
-				if (key == GKEY_UP)
-				{
-					printf("Up\r\n");
-					int16_t x = 0, y = 0;
-					y = gwinGetScreenY(image1);	
-					x = gwinGetScreenX(image1);
-					y = y - 2;
-					gwinMove(image1, x, y);
-				}
-
-				if (key == GKEY_DOWN)
-				{
-					printf("Down\r\n");
-					int16_t x = 0, y = 0;
-					y = gwinGetScreenY(image1);	
-					x = gwinGetScreenX(image1);
-					y = y + 2;
-					gwinMove(image1, x, y);
-				}
-				
-				break;
-			case GEVENT_GWIN_BUTTON:
-			
-				printf("Gwin button pressed\r\n");
-
-				{
-					int16_t x = 0, y = 0;
-					y = gwinGetScreenY(image1);	
-					x = gwinGetScreenX(image1);
-					y = y + 5;
-					gwinMove(image1, x, y);
-				}
-
-				break;
-
-			default:
-				break;
-		}
+		vTaskDelay(100);
 	}
 }
 
@@ -251,21 +191,19 @@ static void UgfxTask(void *pvParameters)
 
 int main( void )
 {
+	prvInitialiseHeap();
 
-   prvInitialiseHeap();
+	xTaskCreate(TaskTest, "Test", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3, NULL);
+	xTaskCreate(UgfxTask, "Ugfx", configMINIMAL_STACK_SIZE * 4, NULL, 0, NULL);
 
-    xTaskCreate(TaskTest, "Test", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3, NULL);
-    xTaskCreate(UgfxTask, "Ugfx", configMINIMAL_STACK_SIZE * 4, NULL, 0, NULL);
+	vTaskStartScheduler();
 
+	for(;;)
+	{
 
-    vTaskStartScheduler();
+	}
 
-    for(;;)
-    {
-
-    }
-
-    return 0;
+	return 0;
 }
 /*-----------------------------------------------------------*/
 
