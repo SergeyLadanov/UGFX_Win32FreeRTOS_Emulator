@@ -1,10 +1,11 @@
 #ifndef __MAINSCREEN_HPP_
 #define __MAINSCREEN_HPP_
 
-#include "UGFX_ScreenBase.hpp"
+#include "UGFX_ViewBase.hpp"
 
+class GuiApp;
 
-class MainScreen : public UGFX_ScreenBase
+class MainScreen : public UGFX_ViewBase<GuiApp, GuiApp>
 {
 private:
     GHandle ghButton1;
@@ -36,7 +37,6 @@ public:
 
         image1 = gwinImageCreate(0, &Widget.g);
         gwinImageOpenFile(image1, "menu_display.png");
-        gwinShow(image1);
 
 
         Widget.g.show = true;
@@ -48,7 +48,7 @@ public:
 
         image2 = gwinImageCreate(0, &Widget.g);
         gwinImageOpenFile(image2, "menu_display.png");
-        gwinShow(image2);
+
         gwinShow(Container);
     }
 };
