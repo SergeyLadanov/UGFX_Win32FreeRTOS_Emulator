@@ -30,7 +30,8 @@ public:
 
     }
 
-    ~UGFX_ScreenBase()
+    
+    virtual ~UGFX_ScreenBase()
     {
         GHandle	child;
 
