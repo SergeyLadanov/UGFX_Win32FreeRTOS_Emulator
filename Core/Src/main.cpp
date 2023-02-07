@@ -58,84 +58,15 @@
 #include "task.h"
 #include "gfx.h"
 #include "MainScreen.hpp"
-#include "UGFX_GuiAppBase.hpp"
+#include "GuiApp.hpp"
 
 
 
 extern void  prvInitialiseHeap( void );
 
-static GListener gl;
-static GHandle   ghButton1;
-static GHandle      ghContainer, image1, image2;
-static uint8_t key = 0;
-static GEvent* pe;
 
-GTimer GT1;
+static GUI_App AppTest;
 
-UGFX_ScreenBase *test;
-UGFX_GuiAppBase AppTest;
-
-
-
-
-static void createWidgets(void) {
-
-	test = new MainScreen();
-	// GWidgetInit	wi;
-
-	// // Apply some default values for GWIN
-	// gwinWidgetClearInit(&wi);
-
-
-    // // Apply the container parameters
-    // // wi.g.show = FALSE;
-    // // wi.g.width = 128;
-    // // wi.g.height = 64;
-    // // wi.g.y = 0;
-    // // wi.g.x = 0;
-    // // wi.text = "Container";
-    // // ghContainer = gwinContainerCreate(0, &wi, GWIN_CONTAINER_BORDER);
-
-
-	// wi.g.show = TRUE;
-
-	// // Apply the button parameters
-	// wi.g.width = 100;
-	// wi.g.height = 30;
-	// wi.g.y = 10;
-	// wi.g.x = 10;
-	// wi.text = "Test";
-	// wi.g.parent = NULL;
-
-	// // Create the actual button
-	// ghButton1 = gwinButtonCreate(0, &wi);
-
-
-	// wi.g.show = false;
-
-	// // Apply the button parameters
-	// wi.g.width = 32;
-	// wi.g.height = 32;
-	// wi.g.y = 50;
-	// wi.g.x = 50;
-
-	// image1 = gwinImageCreate(0, &wi.g);
-	// gwinImageOpenFile(image1, "menu_display.png");
-	// gwinShow(image1);
-
-
-	// wi.g.show = false;
-	// // Apply the button parameters
-	// wi.g.width = 32;
-	// wi.g.height = 32;
-	// wi.g.y = 40;
-	// wi.g.x = 40;
-
-	// image2 = gwinImageCreate(0, &wi.g);
-	// gwinImageOpenFile(image2, "menu_display.png");
-	// gwinShow(image2);
-
-}
 
 
 static void TaskTest(void *arg)
@@ -147,43 +78,6 @@ static void TaskTest(void *arg)
     }
 }
 
-static void callback1(void* arg)
-{
-    (void)arg;
-	static bool direction = false;
-
-	if (!direction)
-	{
-		AppTest.GoToScreen<MainScreen>();
-	}
-	else
-	{
-		AppTest.DestroyScreen();
-	}
-
-	direction = !direction;
-}
-
-
-static void UgfxTask(void *pvParameters)
-{
-	GEvent* pe;
-
-	gfxInit();
-	gdispClear(Black);
-	gwinSetDefaultFont(gdispOpenFont("UI2"));
-	
-
-	//createWidgets();
-	AppTest.Start();
-	/* continious mode - callback1() called without any argument every 250ms */
-    gtimerStart(&GT1, callback1, NULL, TRUE, 2000);
-
-	for(;;) 
-	{
-		vTaskDelay(100);
-	}
-}
 
 
 
@@ -194,7 +88,8 @@ int main( void )
 	prvInitialiseHeap();
 
 	xTaskCreate(TaskTest, "Test", configMINIMAL_STACK_SIZE, NULL, configMAX_PRIORITIES - 3, NULL);
-	xTaskCreate(UgfxTask, "Ugfx", configMINIMAL_STACK_SIZE * 4, NULL, 0, NULL);
+	AppTest.Start();
+
 
 	vTaskStartScheduler();
 

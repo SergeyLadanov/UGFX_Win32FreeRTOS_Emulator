@@ -3,15 +3,23 @@
 
 void UGFX_GuiAppBase::Start()
 {
-	geventListenerInit(&Gl);
-	gwinAttachListener(&Gl);
-	geventAttachSource(&Gl, ginputGetKeyboard(GKEYBOARD_ALL_INSTANCES), 0);
+
 
 
     auto GuiTask = [](void *arg)
     {
         UGFX_GuiAppBase* obj = (UGFX_GuiAppBase *) arg;
         GEvent* pe;
+
+        gfxInit();
+        gdispClear(Black);
+        gwinSetDefaultFont(gdispOpenFont("UI2"));
+
+        geventListenerInit(&obj->Gl);
+        gwinAttachListener(&obj->Gl);
+        geventAttachSource(&obj->Gl, ginputGetKeyboard(GKEYBOARD_ALL_INSTANCES), 0);
+
+        obj->OnInitCallBack();
 
         for(;;)
         {
@@ -24,5 +32,5 @@ void UGFX_GuiAppBase::Start()
         }
     };
 
-    xTaskCreate(GuiTask, "Ugfx", configMINIMAL_STACK_SIZE * 4, this, 0, NULL);
+    gfxThreadCreate(nullptr, CONFIG_TASK_STACK_SIZE, gThreadpriorityLow, GuiTask, this);
 }
