@@ -2,11 +2,12 @@
 #define __MAINPRESENTER_HPP_
 
 #include "UGFX_PresenterBase.hpp"
+#include "Model.hpp"
 
 
 class MainScreen;
 
-class MainPresenter : public UGFX_PresenterBase
+class MainPresenter : public UGFX_PresenterBase, public Model::Listener
 {
 protected:
     MainScreen &View;
@@ -14,7 +15,7 @@ public:
     MainPresenter(MainScreen &view)
         :View(view)
     {
-
+        
     }
 };
 

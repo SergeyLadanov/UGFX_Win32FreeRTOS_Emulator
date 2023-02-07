@@ -26,6 +26,18 @@ protected:
         ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
     }
 
+    template <typename TPresenter>
+    inline TPresenter* GetCurrentPresenter()
+    {
+        return (TPresenter *) CurrentPresenter;
+    }
+
+    template <typename TView>
+    inline TView* GetCurrentView()
+    {
+        return (TView *) CurrentScreen;
+    }
+
 public:
     void Start();
 

@@ -3,10 +3,13 @@
 
 #include "UGFX_GuiAppBase.hpp"
 
+#include "Model.hpp"
 
 class GUI_App : public UGFX_GuiAppBase
 {
 private:
+    Model &ModelRef;
+
     void OnInitCallBack(void) override
     {
         TimerStart(500);
@@ -14,8 +17,21 @@ private:
 
     void OnTimerTickCallBack(void) override;
 public:
-    void GoToMainScreen(void);
+    GUI_App(Model &model)
+        : ModelRef(model)
+    {
 
+    }
+
+
+    template <typename TScreen, typename TPresenter>
+    void GoToScreen(void)
+    {
+        UGFX_GuiAppBase::GoToScreen<typeof(*this), TScreen, TPresenter>();
+        GetCurrentPresenter<TPresenter>()->BindModel(&ModelRef);
+    }
+    
+    void GoToMainScreen(void);
 };
 
 

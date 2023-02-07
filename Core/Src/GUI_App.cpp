@@ -4,8 +4,7 @@
 
 void GUI_App::GoToMainScreen(void)
 {
-    GoToScreen<GUI_App, MainScreen, MainPresenter>();
-    
+    GoToScreen<MainScreen, MainPresenter>();
 }
 
 

@@ -59,13 +59,14 @@
 #include "gfx.h"
 #include "MainScreen.hpp"
 #include "GUI_App.hpp"
+#include "Model.hpp"
 
 
 
 extern void  prvInitialiseHeap( void );
 
-
-static GUI_App AppTest;
+static Model ModelInstance;
+static GUI_App AppTest(ModelInstance);
 
 
 
