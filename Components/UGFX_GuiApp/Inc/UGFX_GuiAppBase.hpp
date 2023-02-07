@@ -3,33 +3,46 @@
 
 #include <cstdio>
 #include "UGFX_ScreenBase.hpp"
+#include "UGFX_PresenterBase.hpp"
 
 
 class UGFX_GuiAppBase
 {
-private:
+protected:
     static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 1024;
-    UGFX_ScreenBase *Current = nullptr;
+    UGFX_ScreenBase *CurrentScreen = nullptr;
+    UGFX_PresenterBase *CurrentPresenter = nullptr;
     GListener Gl;
     GTimer GTimer;
     uint32_t TimerTicks = 0;
 
-public:
-    void Start();
-    template <typename T>
+
+    template <typename TApp, typename TScreen, typename TPresenter>
     void GoToScreen(void)
     {
-        if (Current)
-        {
-            delete (T *) Current;
-        }
-        Current = new T();
+        DestroyScreen();
+        CurrentScreen = new TScreen();
+        CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
+        ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
     }
+
+public:
+    void Start();
 
     void DestroyScreen()
     {
-        delete Current;
-        Current = nullptr;
+        if (CurrentScreen)
+        {
+            delete CurrentScreen;
+            CurrentScreen = nullptr;
+        }
+
+        if (CurrentPresenter)
+        {
+            delete CurrentPresenter;
+            CurrentPresenter = nullptr;
+        }
+
     }
 
     void TimerStart(uint32_t period, uint32_t nTicks = 0xFFFFFFFF)

@@ -18,7 +18,7 @@ public:
 
     }
 
-    void Bind(AppType& app, PresenterType &pressenter)
+    void Bind(AppType& app, PresenterType& pressenter)
     {
         Application = &app;
         Presenter = &pressenter;

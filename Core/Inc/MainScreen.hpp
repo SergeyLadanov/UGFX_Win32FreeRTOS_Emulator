@@ -2,10 +2,10 @@
 #define __MAINSCREEN_HPP_
 
 #include "UGFX_ViewBase.hpp"
+#include "GUI_App.hpp"
+#include "MainPresenter.hpp"
 
-class GuiApp;
-
-class MainScreen : public UGFX_ViewBase<GuiApp, GuiApp>
+class MainScreen : public UGFX_ViewBase<GUI_App, MainPresenter>
 {
 private:
     GHandle ghButton1;
@@ -13,7 +13,6 @@ private:
 public:
     MainScreen()
     {
-
         Widget.g.show = true;
 
         // Apply the button parameters
@@ -50,6 +49,7 @@ public:
         gwinImageOpenFile(image2, "menu_display.png");
 
         gwinShow(Container);
+
     }
 };
 

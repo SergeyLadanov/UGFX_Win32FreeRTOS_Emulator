@@ -25,9 +25,9 @@ void UGFX_GuiAppBase::Start()
         {
             pe = geventEventWait(&obj->Gl, TIME_INFINITE);
             printf("Event processed!\r\n");
-            if (obj->Current)
+            if (obj->CurrentScreen)
             {
-                obj->Current->HandleUgfxEvent(pe);
+                obj->CurrentScreen->HandleUgfxEvent(pe);
             }
         }
     };
