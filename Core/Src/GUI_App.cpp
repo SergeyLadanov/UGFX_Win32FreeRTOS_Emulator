@@ -1,11 +1,18 @@
 #include "GUI_App.hpp"
 #include "MainScreen.hpp"
+#include "Screen2.hpp"
 
 
 void GUI_App::OnInitCallBack(void)
 {
     TimerStart(500);
     GoToMainScreen();
+}
+
+
+void GUI_App::GoToScreen2(void)
+{
+    GoToScreen<Screen2, Screen2Presenter>();
 }
 
 

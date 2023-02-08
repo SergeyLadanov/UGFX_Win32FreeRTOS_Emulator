@@ -1,17 +1,17 @@
-#ifndef __MAINSCREEN_HPP_
-#define __MAINSCREEN_HPP_
+#ifndef __SCREEN2_HPP_
+#define __SCREEN2_HPP_
 
 #include "UGFX_ViewBase.hpp"
 #include "GUI_App.hpp"
-#include "MainPresenter.hpp"
+#include "Screen2Presenter.hpp"
 
-class MainScreen : public UGFX_ViewBase<GUI_App, MainPresenter>
+class Screen2 : public UGFX_ViewBase<GUI_App, Screen2Presenter>
 {
 private:
     GHandle ghButton1;
     GHandle image1, image2;
 public:
-    MainScreen()
+    Screen2()
     {
         Widget.g.show = true;
 
@@ -20,7 +20,7 @@ public:
         Widget.g.height = 30;
         Widget.g.y = 10;
         Widget.g.x = 10;
-        Widget.text = "Test";
+        Widget.text = "Test 23";
 
         // Create the actual button
         ghButton1 = gwinButtonCreate(0, &Widget);
@@ -55,7 +55,7 @@ public:
     void HandleUgfxEvent(GEvent* pe) override
     {
         printf("Event from main screen...\r\n");
-        Application->GoToScreen2();
+        Application->GoToMainScreen();
     }
 
     void OnSetupScreen() override

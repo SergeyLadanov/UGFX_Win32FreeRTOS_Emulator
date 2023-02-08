@@ -29,6 +29,7 @@ public:
     }
     
     void GoToMainScreen(void);
+    void GoToScreen2(void);
 };
 
 
