@@ -2,6 +2,13 @@
 #include "MainScreen.hpp"
 
 
+void GUI_App::OnInitCallBack(void)
+{
+    TimerStart(500);
+    GoToMainScreen();
+}
+
+
 void GUI_App::GoToMainScreen(void)
 {
     GoToScreen<MainScreen, MainPresenter>();
@@ -11,17 +18,18 @@ void GUI_App::GoToMainScreen(void)
 void GUI_App::OnTimerTickCallBack(void)
 {
     ModelRef.Tick();
-    
-    static bool direction = false;
+    //CurrentScreen->MoveOn(-2, -2);
 
-    if (!direction)
-    {
-        GoToMainScreen();
-    }
-    else
-    {
-        DestroyScreen();
-    }
+    // static bool direction = false;
 
-    direction = !direction;
+    // if (!direction)
+    // {
+    //     GoToMainScreen();
+    // }
+    // else
+    // {
+    //     DestroyScreen();
+    // }
+
+    // direction = !direction;
 }

@@ -12,19 +12,28 @@ protected:
     GHandle Container;
     GWidgetInit	Widget;
 public:
-    UGFX_ScreenBase(void)
+    UGFX_ScreenBase(int16_t x = 0, int16_t y = 0)
     {
         gwinWidgetClearInit(&Widget);
         Widget.g.show = FALSE;
         Widget.g.width = gdispGetWidth();
         Widget.g.height = gdispGetHeight();
-        Widget.g.y = 0;
-        Widget.g.x = 0;
+        Widget.g.y = y;
+        Widget.g.x = x;
         Widget.text = "";
         Container = gwinContainerCreate(0, &Widget, 0);
         Widget.g.parent = Container;
     }
 
+    void Show(void)
+    {
+        gwinShow(Container);
+    }
+
+    void Hide(void)
+    {
+        gwinHide(Container);
+    }
 
     void MoveOn(int16_t dx, int16_t dy)
     {

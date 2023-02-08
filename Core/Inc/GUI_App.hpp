@@ -10,10 +10,7 @@ class GUI_App : public UGFX_GuiAppBase
 private:
     Model &ModelRef;
 
-    void OnInitCallBack(void) override
-    {
-        TimerStart(500);
-    }
+    void OnInitCallBack(void) override;
 
     void OnTimerTickCallBack(void) override;
 public:
