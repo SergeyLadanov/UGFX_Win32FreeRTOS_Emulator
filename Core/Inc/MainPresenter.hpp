@@ -17,6 +17,17 @@ public:
     {
         
     }
+
+    void Activate() override
+    {
+        printf("Presener activate...\r\n");
+    }
+
+
+    void DeActivate() override
+    {
+        printf("Presener deactivate...\r\n");
+    }
 };
 
 

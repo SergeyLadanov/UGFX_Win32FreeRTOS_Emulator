@@ -10,6 +10,8 @@ void GUI_App::GoToMainScreen(void)
 
 void GUI_App::OnTimerTickCallBack(void)
 {
+    ModelRef.Tick();
+    
     static bool direction = false;
 
     if (!direction)

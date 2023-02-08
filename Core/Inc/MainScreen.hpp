@@ -51,6 +51,16 @@ public:
         gwinShow(Container);
 
     }
+
+    void OnSetupScreen() override
+    {
+        printf("Setuping screen...\r\n");
+    }
+
+    void OnExitScreen() override
+    {
+        printf("Leaving screen...\r\n");
+    }
 };
 
 

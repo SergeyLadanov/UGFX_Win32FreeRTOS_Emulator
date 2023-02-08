@@ -17,7 +17,13 @@ public:
         {
             ModelRef = model;
         }
+
     };
+
+    void Tick(void)
+    {
+
+    }
 };
 
 

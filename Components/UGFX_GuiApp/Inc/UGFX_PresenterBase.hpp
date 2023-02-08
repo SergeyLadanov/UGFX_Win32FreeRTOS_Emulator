@@ -11,6 +11,16 @@ public:
         
     }
 
+    virtual void Activate(void)
+    {
+
+    }
+
+    virtual void DeActivate(void)
+    {
+        
+    }
+
     virtual ~UGFX_PresenterBase()
     {
         
