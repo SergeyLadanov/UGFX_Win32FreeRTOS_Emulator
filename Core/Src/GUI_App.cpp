@@ -15,6 +15,11 @@ void GUI_App::GoToScreen2(void)
     GoToScreen<Screen2, Screen2Presenter>();
 }
 
+void GUI_App::GoToScreen2Animation(void)
+{
+    GoToScreenAnimation<Screen2, Screen2Presenter>();
+}
+
 
 void GUI_App::GoToMainScreen(void)
 {

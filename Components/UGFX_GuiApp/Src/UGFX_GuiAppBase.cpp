@@ -29,7 +29,9 @@ void UGFX_GuiAppBase::Start()
         }
     };
 
-    gfxThreadCreate(nullptr, CONFIG_TASK_STACK_SIZE, gThreadpriorityLow, GuiTask, this);
+    GuiTask(this);
+
+    //gfxThreadCreate(nullptr, CONFIG_TASK_STACK_SIZE, gThreadpriorityLow, GuiTask, this);
 }
 
 
@@ -58,16 +60,48 @@ void UGFX_GuiAppBase::TimerStart(uint32_t period, uint32_t nTicks)
     bool autoreload = true;
     TimerTicks = nTicks;
 
+    if (gtimerIsActive(&Gtimer))
+    {
+        TimerStop();
+    }
+
     auto TimerCallBack = [](void *arg)
     {
         UGFX_GuiAppBase *obj = (UGFX_GuiAppBase *) arg;
         obj->OnTimerTickCallBack();
 
-        if (obj->CurrentScreen)
+
+        if (obj->NextScreen)
         {
-            obj->CurrentScreen->OnTimeTickCallBack();
+            if (obj->CurrentScreen)
+            {
+                
+                obj->CurrentScreen->MoveOn(0, 1);
+                
+                // gdispGetHeight();
+                // gdispGetWidth();
+            }
+
+            obj->NextScreen->MoveOn(0, 1);
+
+            if (obj->AnimationOffset > 0)
+            {
+                obj->AnimationOffset--;
+            }
+
+            if (obj->AnimationOffset < 0)
+            {
+                obj->AnimationOffset++;
+            }
         }
-        
+        else
+        {
+            if (obj->CurrentScreen)
+            {
+                obj->CurrentScreen->OnTimeTickCallBack();
+            }
+        }
+            
 
         if (obj->TimerTicks < 0xFFFFFFFF)
         {
@@ -77,11 +111,15 @@ void UGFX_GuiAppBase::TimerStart(uint32_t period, uint32_t nTicks)
 
                 if (!obj->TimerTicks)
                 {
-                    gtimerStop(&obj->GTimer);
+                    gtimerStop(&obj->Gtimer);
                 }
             }
 
         }
+        
+
+
+
     };
 
 
@@ -90,11 +128,11 @@ void UGFX_GuiAppBase::TimerStart(uint32_t period, uint32_t nTicks)
         autoreload = false;
     }
 
-    gtimerStart(&GTimer, TimerCallBack, this, autoreload, period);
+    gtimerStart(&Gtimer, TimerCallBack, this, autoreload, period);
 }
 
 
 void UGFX_GuiAppBase::TimerStop()
 {
-    gtimerStop(&GTimer);
+    gtimerStop(&Gtimer);
 }

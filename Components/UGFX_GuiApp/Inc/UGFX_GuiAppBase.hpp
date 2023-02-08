@@ -9,15 +9,20 @@
 class UGFX_GuiAppBase
 {
 protected:
-    static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 1024;
+    static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 512;
     UGFX_ScreenBase *CurrentScreen = nullptr;
     UGFX_ScreenBase *NextScreen = nullptr;
     UGFX_PresenterBase *CurrentPresenter = nullptr;
+    UGFX_PresenterBase *NextPresenter = nullptr;
     GListener Gl;
-    GTimer GTimer;
+    GTimer Gtimer;
     uint32_t TimerTicks = 0;
 
+
+    int16_t AnimationOffset = 0;
+
 public:
+
     template <typename TApp, typename TScreen, typename TPresenter>
     void GoToScreen(void)
     {
@@ -40,6 +45,21 @@ public:
             ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
         }
         
+    }
+
+    template <typename TApp, typename TScreen, typename TPresenter>
+    void GoToScreenAnimation(void)
+    {
+        NextScreen = new TScreen();
+        if (NextScreen)
+        {
+            NextScreen->SetPos(0, -gdispGetHeight());
+            NextScreen->Show();
+        }
+
+        NextPresenter = new TPresenter(*(TScreen *) CurrentScreen);
+
+        TimerStart(10, gdispGetHeight());
     }
 
     template <typename TPresenter>

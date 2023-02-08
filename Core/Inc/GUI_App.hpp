@@ -27,9 +27,17 @@ public:
         UGFX_GuiAppBase::GoToScreen<typeof(*this), TScreen, TPresenter>();
         GetCurrentPresenter<TPresenter>()->BindModel(&ModelRef);
     }
+
+
+    template <typename TScreen, typename TPresenter>
+    void GoToScreenAnimation(void)
+    {
+        UGFX_GuiAppBase::GoToScreenAnimation<typeof(*this), TScreen, TPresenter>();
+    }
     
     void GoToMainScreen(void);
     void GoToScreen2(void);
+    void GoToScreen2Animation(void);
 };
 
 
