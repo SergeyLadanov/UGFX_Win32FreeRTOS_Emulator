@@ -27,7 +27,10 @@ public:
         if (CurrentScreen)
         {
             CurrentScreen->OnSetupScreen();
+            CurrentScreen->Show();
         }
+
+        
 
         CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
 

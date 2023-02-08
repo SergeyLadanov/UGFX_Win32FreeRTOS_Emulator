@@ -48,8 +48,6 @@ public:
         image2 = gwinImageCreate(0, &Widget.g);
         gwinImageOpenFile(image2, "menu_display.png");
 
-        gwinShow(Container);
-
     }
 
     void HandleUgfxEvent(GEvent* pe) override
