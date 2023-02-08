@@ -76,13 +76,13 @@ void UGFX_GuiAppBase::TimerStart(uint32_t period, uint32_t nTicks)
             if (obj->CurrentScreen)
             {
                 
-                obj->CurrentScreen->MoveOn(0, 1);
+                obj->CurrentScreen->MoveOn(0, 20);
                 
                 // gdispGetHeight();
                 // gdispGetWidth();
             }
 
-            obj->NextScreen->MoveOn(0, 1);
+            obj->NextScreen->MoveOn(0, 20);
 
             if (obj->AnimationOffset > 0)
             {

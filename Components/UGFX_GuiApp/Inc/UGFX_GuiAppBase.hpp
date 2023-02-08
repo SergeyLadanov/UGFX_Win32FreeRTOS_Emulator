@@ -4,6 +4,7 @@
 #include <cstdio>
 #include "UGFX_ScreenBase.hpp"
 #include "UGFX_PresenterBase.hpp"
+#include "UGFX_AppTimer.hpp"
 
 
 class UGFX_GuiAppBase
@@ -59,7 +60,7 @@ public:
 
         NextPresenter = new TPresenter(*(TScreen *) CurrentScreen);
 
-        TimerStart(10, gdispGetHeight());
+        TimerStart(25, gdispGetHeight()/20);
     }
 
     template <typename TPresenter>
