@@ -1,18 +1,17 @@
-#ifndef __MAINSCREEN_HPP_
-#define __MAINSCREEN_HPP_
+#ifndef __SCREEN2_HPP_
+#define __SCREEN2_HPP_
 
 #include "UGFX_ViewBase.hpp"
 #include "GUI_App.hpp"
-#include "MainPresenter.hpp"
+#include "Screen2Presenter.hpp"
 
-class MainScreen : public UGFX_ViewBase<GUI_App, MainPresenter>
+class Screen2 : public UGFX_ViewBase<GUI_App, Screen2Presenter>
 {
 private:
     GHandle ghButton1;
-    GHandle image1, image2, image3, image4;
-    UGFX_AppTimer TestTim;
+    GHandle image1, image2;
 public:
-    MainScreen()
+    Screen2()
     {
         Widget.g.show = true;
 
@@ -21,7 +20,7 @@ public:
         Widget.g.height = 30;
         Widget.g.y = 10;
         Widget.g.x = 10;
-        Widget.text = "Test";
+        Widget.text = "Test 23";
 
         // Create the actual button
         ghButton1 = gwinButtonCreate(0, &Widget);
@@ -43,47 +42,20 @@ public:
         // Apply the button parameters
         Widget.g.width = 32;
         Widget.g.height = 32;
-        Widget.g.y = 40;
+        Widget.g.y = 90;
         Widget.g.x = 40;
 
         image2 = gwinImageCreate(0, &Widget.g);
         gwinImageOpenFile(image2, "menu_display.png");
-
-
-        Widget.g.show = true;
-        // Apply the button parameters
-        Widget.g.width = 32;
-        Widget.g.height = 32;
-        Widget.g.y = 90;
-        Widget.g.x = 40;
-
-        image3 = gwinImageCreate(0, &Widget.g);
-        gwinImageOpenFile(image3, "menu_display.png");
-        
-
-
-        Widget.g.show = true;
-        // Apply the button parameters
-        Widget.g.width = 32;
-        Widget.g.height = 32;
-        Widget.g.y = 130;
-        Widget.g.x = 40;
-
-        image4 = gwinImageCreate(0, &Widget.g);
-        gwinImageOpenFile(image4, "menu_display.png");
-
-        gwinImageCache(image1);
-	    gwinImageCache(image2);
-        gwinImageCache(image3);
-        gwinImageCache(image4);
 
     }
 
     void HandleUgfxEvent(GEvent* pe) override
     {
         printf("Event from main screen...\r\n");
-        Application->GoToScreen2Animation();
-        //Application->GoToScreen2();
+        //Application->GoToMainScreen();
+
+        Application->GoToMainScreenAnimation();
     }
 
     void OnSetupScreen() override

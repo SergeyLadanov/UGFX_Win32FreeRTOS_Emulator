@@ -12,7 +12,7 @@ protected:
     GHandle Container;
     GWidgetInit	Widget;
 public:
-    UGFX_ScreenBase(void)
+    UGFX_ScreenBase()
     {
         gwinWidgetClearInit(&Widget);
         Widget.g.show = FALSE;
@@ -25,7 +25,47 @@ public:
         Widget.g.parent = Container;
     }
 
+    void Show(void)
+    {
+        gwinShow(Container);
+    }
+
+    void Hide(void)
+    {
+        gwinHide(Container);
+    }
+
+    void MoveOn(int16_t dx, int16_t dy)
+    {
+        int16_t x = gwinGetScreenX(Container);
+        int16_t y = gwinGetScreenY(Container);
+
+        x = x + dx;
+        y = y + dy;
+
+        SetPos(x, y);
+    }
+
+
+    void SetPos(int16_t x, int16_t y)
+    {
+        gwinMove(Container, x, y);
+    }
+
+
     virtual void HandleUgfxEvent(GEvent* pe)
+    {
+
+    }
+
+
+    virtual void OnSetupScreen(void)
+    {
+
+    }
+
+
+    virtual void OnExitScreen(void)
     {
 
     }

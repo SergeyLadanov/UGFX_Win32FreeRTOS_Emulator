@@ -3,83 +3,63 @@
 
 #include <cstdio>
 #include "UGFX_ScreenBase.hpp"
+#include "UGFX_PresenterBase.hpp"
+#include "UGFX_AppTimer.hpp"
 
 
 class UGFX_GuiAppBase
 {
-private:
-    static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 1024;
-    UGFX_ScreenBase *Current = nullptr;
+protected:
+    UGFX_ScreenBase *CurrentScreen = nullptr;
+    UGFX_PresenterBase *CurrentPresenter = nullptr;
     GListener Gl;
-    GTimer GTimer;
-    uint32_t TimerTicks = 0;
-
+    bool ScreenReady = false;
 public:
-    void Start();
-    template <typename T>
+
+    template <typename TApp, typename TScreen, typename TPresenter>
     void GoToScreen(void)
     {
-        if (Current)
+        DestroyScreen();
+
+        CurrentScreen = new TScreen();
+        if (CurrentScreen)
         {
-            delete (T *) Current;
-        }
-        Current = new T();
-    }
+            CurrentScreen->OnSetupScreen();
 
-    void DestroyScreen()
-    {
-        delete Current;
-        Current = nullptr;
-    }
+            CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
 
-    void TimerStart(uint32_t period, uint32_t nTicks = 0xFFFFFFFF)
-    {
-        bool autoreload = true;
-        TimerTicks = nTicks;
-
-        auto TimerCallBack = [](void *arg)
-        {
-            UGFX_GuiAppBase *obj = (UGFX_GuiAppBase *) arg;
-            obj->OnTimerTickCallBack();
-
-            if (obj->TimerTicks < 0xFFFFFFFF)
+            if (CurrentPresenter)
             {
-                if (obj->TimerTicks != 0)
-                {
-                    obj->TimerTicks--;
-
-                    if (!obj->TimerTicks)
-                    {
-                        gtimerStop(&obj->GTimer);
-                    }
-                }
- 
+                ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
+                CurrentPresenter->Activate();
             }
-        };
 
+            CurrentScreen->Show();
 
-        if (nTicks == 0)
-        {
-            autoreload = false;
+            ScreenReady = true;
         }
-
-        gtimerStart(&GTimer, TimerCallBack, this, autoreload, period);
     }
 
 
-    void TimerStop()
+    template <typename TPresenter>
+    inline TPresenter* GetCurrentPresenter()
     {
-        gtimerStop(&GTimer);
+        return (TPresenter *) CurrentPresenter;
     }
 
-private:
+    template <typename TView>
+    inline TView* GetCurrentView()
+    {
+        return (TView *) CurrentScreen;
+    }
+
+    void Start(uint32_t task_stack = 512);
+
+    void DestroyScreen();
+
+protected:
 
     virtual void OnInitCallBack(void)
-    {
-
-    }
-
-    virtual void OnTimerTickCallBack(void)
     {
 
     }
