@@ -53,7 +53,9 @@ public:
     void HandleUgfxEvent(GEvent* pe) override
     {
         printf("Event from main screen...\r\n");
-        Application->GoToMainScreen();
+        //Application->GoToMainScreen();
+
+        Application->GoToMainScreenAnimation();
     }
 
     void OnSetupScreen() override

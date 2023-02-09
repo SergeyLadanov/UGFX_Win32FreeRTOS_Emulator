@@ -82,8 +82,8 @@ public:
     void HandleUgfxEvent(GEvent* pe) override
     {
         printf("Event from main screen...\r\n");
-        //Application->GoToScreen2Animation();
-        Application->GoToScreen2();
+        Application->GoToScreen2Animation();
+        //Application->GoToScreen2();
     }
 
     void OnSetupScreen() override

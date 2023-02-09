@@ -39,7 +39,6 @@ void UGFX_GuiAppBase::Start()
 
 void UGFX_GuiAppBase::DestroyScreen()
 {
-
     if (CurrentPresenter)
     {
         CurrentPresenter->DeActivate();

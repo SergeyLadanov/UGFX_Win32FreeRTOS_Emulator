@@ -25,20 +25,19 @@ public:
         if (CurrentScreen)
         {
             CurrentScreen->OnSetupScreen();
+
+            CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
+
+            if (CurrentPresenter)
+            {
+                ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
+                CurrentPresenter->Activate();
+            }
+
             CurrentScreen->Show();
         }
-
-        
-
-        CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
-
-        if (CurrentPresenter)
-        {
-            CurrentPresenter->Activate();
-            ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
-        }
-        
     }
+
 
     template <typename TPresenter>
     inline TPresenter* GetCurrentPresenter()
