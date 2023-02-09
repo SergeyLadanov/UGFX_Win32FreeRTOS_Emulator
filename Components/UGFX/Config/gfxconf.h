@@ -35,7 +35,7 @@
 //#define GFX_USE_OS_CHIBIOS                           FALSE
 #define GFX_USE_OS_FREERTOS                          TRUE
 //    #define GFX_FREERTOS_USE_TRACE                   FALSE
-//#define GFX_USE_OS_WIN32                             TRUE
+// #define GFX_USE_OS_WIN32                             TRUE
 //#define GFX_USE_OS_LINUX                             FALSE
 //#define GFX_USE_OS_OSX                               FALSE
 //#define GFX_USE_OS_ECOS                              FALSE
@@ -263,7 +263,7 @@
 #define GFX_USE_GTIMER                               TRUE
 
 //#define GTIMER_THREAD_PRIORITY                       HIGH_PRIORITY
-//#define GTIMER_THREAD_WORKAREA_SIZE                  2048
+#define GTIMER_THREAD_WORKAREA_SIZE                  2048
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -324,7 +324,7 @@
 
 //#define GFILE_ALLOW_FLOATS                           FALSE
 //#define GFILE_ALLOW_DEVICESPECIFIC                   FALSE
-//#define GFILE_MAX_GFILES                             3
+#define GFILE_MAX_GFILES                             10
 
 ///////////////////////////////////////////////////////////////////////////
 // GADC                                                                  //

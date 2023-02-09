@@ -42,7 +42,7 @@ public:
         // Apply the button parameters
         Widget.g.width = 32;
         Widget.g.height = 32;
-        Widget.g.y = 40;
+        Widget.g.y = 90;
         Widget.g.x = 40;
 
         image2 = gwinImageCreate(0, &Widget.g);
@@ -53,7 +53,9 @@ public:
     void HandleUgfxEvent(GEvent* pe) override
     {
         printf("Event from main screen...\r\n");
-        Application->GoToMainScreen();
+        //Application->GoToMainScreen();
+
+        Application->GoToMainScreenAnimation();
     }
 
     void OnSetupScreen() override

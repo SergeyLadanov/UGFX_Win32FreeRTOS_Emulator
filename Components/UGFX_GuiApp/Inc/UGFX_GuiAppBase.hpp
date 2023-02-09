@@ -4,20 +4,18 @@
 #include <cstdio>
 #include "UGFX_ScreenBase.hpp"
 #include "UGFX_PresenterBase.hpp"
+#include "UGFX_AppTimer.hpp"
 
 
 class UGFX_GuiAppBase
 {
 protected:
-    static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 1024;
     UGFX_ScreenBase *CurrentScreen = nullptr;
-    UGFX_ScreenBase *NextScreen = nullptr;
     UGFX_PresenterBase *CurrentPresenter = nullptr;
     GListener Gl;
-    GTimer GTimer;
-    uint32_t TimerTicks = 0;
-
+    bool ScreenReady = false;
 public:
+
     template <typename TApp, typename TScreen, typename TPresenter>
     void GoToScreen(void)
     {
@@ -27,20 +25,21 @@ public:
         if (CurrentScreen)
         {
             CurrentScreen->OnSetupScreen();
+
+            CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
+
+            if (CurrentPresenter)
+            {
+                ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
+                CurrentPresenter->Activate();
+            }
+
             CurrentScreen->Show();
+
+            ScreenReady = true;
         }
-
-        
-
-        CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
-
-        if (CurrentPresenter)
-        {
-            CurrentPresenter->Activate();
-            ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
-        }
-        
     }
+
 
     template <typename TPresenter>
     inline TPresenter* GetCurrentPresenter()
@@ -54,23 +53,13 @@ public:
         return (TView *) CurrentScreen;
     }
 
-
-    void Start();
+    void Start(uint32_t task_stack = 512);
 
     void DestroyScreen();
 
-    void TimerStart(uint32_t period, uint32_t nTicks = 0xFFFFFFFF);
-
-    void TimerStop();
-
-private:
+protected:
 
     virtual void OnInitCallBack(void)
-    {
-
-    }
-
-    virtual void OnTimerTickCallBack(void)
     {
 
     }

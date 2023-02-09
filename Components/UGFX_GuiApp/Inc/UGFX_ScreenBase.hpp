@@ -12,14 +12,14 @@ protected:
     GHandle Container;
     GWidgetInit	Widget;
 public:
-    UGFX_ScreenBase(int16_t x = 0, int16_t y = 0)
+    UGFX_ScreenBase()
     {
         gwinWidgetClearInit(&Widget);
         Widget.g.show = FALSE;
         Widget.g.width = gdispGetWidth();
         Widget.g.height = gdispGetHeight();
-        Widget.g.y = y;
-        Widget.g.x = x;
+        Widget.g.y = 0;
+        Widget.g.x = 0;
         Widget.text = "";
         Container = gwinContainerCreate(0, &Widget, 0);
         Widget.g.parent = Container;
@@ -54,13 +54,6 @@ public:
 
 
     virtual void HandleUgfxEvent(GEvent* pe)
-    {
-
-    }
-
-
-
-    virtual void OnTimeTickCallBack(void)
     {
 
     }
