@@ -16,7 +16,7 @@ public:
 
     UGFX_AppTimer()
     {
-        printf("Timer constructor\r\n");
+        // printf("Timer constructor\r\n");
         param = this;
         fn = [](void *arg)
         {
@@ -89,7 +89,7 @@ public:
 
     ~UGFX_AppTimer()
     {
-        printf("Timer destructor\r\n");
+
     }
 };
 

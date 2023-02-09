@@ -30,7 +30,7 @@ public:
     template <typename TScreen, typename TPresenter>
     void GoToScreenAnimation(void)
     {
-        UGFX_GuiAppAnimationBase::GoToScreenAnimation<typeof(*this), TScreen, TPresenter>(25, 20);
+        UGFX_GuiAppAnimationBase::GoToScreenAnimation<typeof(*this), TScreen, TPresenter>(20, 20, ANIMATION_RIGHT_TO_LEFT);
         GetNextPresenter<TPresenter>()->BindModel(&ModelRef);
     }
     
