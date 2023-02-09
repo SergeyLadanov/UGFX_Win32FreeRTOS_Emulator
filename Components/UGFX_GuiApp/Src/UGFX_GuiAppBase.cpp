@@ -3,7 +3,8 @@
 
 void UGFX_GuiAppBase::Start(uint32_t task_stack)
 {
-    auto GuiTask = [](void *arg)
+    
+    auto GuiTask = [](void *arg)->gThreadreturn
     {
         UGFX_GuiAppBase* obj = (UGFX_GuiAppBase *) arg;
         GEvent* pe;
@@ -30,9 +31,9 @@ void UGFX_GuiAppBase::Start(uint32_t task_stack)
                 }  
             }
         }
-    };
 
-    // GuiTask(this);
+        gfxThreadReturn(0);
+    };
 
     gfxThreadCreate(nullptr, task_stack, gThreadpriorityLow, GuiTask, this);
 }
