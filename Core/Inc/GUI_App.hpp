@@ -1,18 +1,17 @@
 #ifndef __GUI_APP_HPP_
 #define __GUI_APP_HPP_
 
-#include "UGFX_GuiAppBase.hpp"
+#include "UGFX_GuiAppAnimationBase.hpp"
 
 #include "Model.hpp"
 
-class GUI_App : public UGFX_GuiAppBase
+class GUI_App : public UGFX_GuiAppAnimationBase
 {
 private:
     Model &ModelRef;
 
     void OnInitCallBack(void) override;
 
-    void OnTimerTickCallBack(void) override;
 public:
     GUI_App(Model &model)
         : ModelRef(model)
@@ -27,17 +26,9 @@ public:
         UGFX_GuiAppBase::GoToScreen<typeof(*this), TScreen, TPresenter>();
         GetCurrentPresenter<TPresenter>()->BindModel(&ModelRef);
     }
-
-
-    template <typename TScreen, typename TPresenter>
-    void GoToScreenAnimation(void)
-    {
-        UGFX_GuiAppBase::GoToScreenAnimation<typeof(*this), TScreen, TPresenter>();
-    }
     
     void GoToMainScreen(void);
     void GoToScreen2(void);
-    void GoToScreen2Animation(void);
 };
 
 

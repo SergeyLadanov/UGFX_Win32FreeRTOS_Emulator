@@ -59,13 +59,6 @@ public:
     }
 
 
-
-    virtual void OnTimeTickCallBack(void)
-    {
-
-    }
-
-
     virtual void OnSetupScreen(void)
     {
 

@@ -12,16 +12,8 @@ class UGFX_GuiAppBase
 protected:
     static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 512;
     UGFX_ScreenBase *CurrentScreen = nullptr;
-    UGFX_ScreenBase *NextScreen = nullptr;
     UGFX_PresenterBase *CurrentPresenter = nullptr;
-    UGFX_PresenterBase *NextPresenter = nullptr;
     GListener Gl;
-    GTimer Gtimer;
-    uint32_t TimerTicks = 0;
-
-
-    int16_t AnimationOffset = 0;
-
 public:
 
     template <typename TApp, typename TScreen, typename TPresenter>
@@ -48,21 +40,6 @@ public:
         
     }
 
-    template <typename TApp, typename TScreen, typename TPresenter>
-    void GoToScreenAnimation(void)
-    {
-        NextScreen = new TScreen();
-        if (NextScreen)
-        {
-            NextScreen->SetPos(0, -gdispGetHeight());
-            NextScreen->Show();
-        }
-
-        NextPresenter = new TPresenter(*(TScreen *) CurrentScreen);
-
-        TimerStart(25, gdispGetHeight()/20);
-    }
-
     template <typename TPresenter>
     inline TPresenter* GetCurrentPresenter()
     {
@@ -75,23 +52,13 @@ public:
         return (TView *) CurrentScreen;
     }
 
-
     void Start();
 
     void DestroyScreen();
 
-    void TimerStart(uint32_t period, uint32_t nTicks = 0xFFFFFFFF);
-
-    void TimerStop();
-
-private:
+protected:
 
     virtual void OnInitCallBack(void)
-    {
-
-    }
-
-    virtual void OnTimerTickCallBack(void)
     {
 
     }

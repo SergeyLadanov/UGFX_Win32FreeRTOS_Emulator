@@ -29,9 +29,9 @@ void UGFX_GuiAppBase::Start()
         }
     };
 
-    GuiTask(this);
+    // GuiTask(this);
 
-    //gfxThreadCreate(nullptr, CONFIG_TASK_STACK_SIZE, gThreadpriorityLow, GuiTask, this);
+    gfxThreadCreate(nullptr, CONFIG_TASK_STACK_SIZE, gThreadpriorityLow, GuiTask, this);
 }
 
 
@@ -53,86 +53,4 @@ void UGFX_GuiAppBase::DestroyScreen()
         delete CurrentScreen;
         CurrentScreen = nullptr;
     }
-}
-
-void UGFX_GuiAppBase::TimerStart(uint32_t period, uint32_t nTicks)
-{
-    bool autoreload = true;
-    TimerTicks = nTicks;
-
-    if (gtimerIsActive(&Gtimer))
-    {
-        TimerStop();
-    }
-
-    auto TimerCallBack = [](void *arg)
-    {
-        UGFX_GuiAppBase *obj = (UGFX_GuiAppBase *) arg;
-        obj->OnTimerTickCallBack();
-
-
-        if (obj->NextScreen)
-        {
-            if (obj->CurrentScreen)
-            {
-                
-                obj->CurrentScreen->MoveOn(0, 20);
-                
-                // gdispGetHeight();
-                // gdispGetWidth();
-            }
-
-            obj->NextScreen->MoveOn(0, 20);
-
-            if (obj->AnimationOffset > 0)
-            {
-                obj->AnimationOffset--;
-            }
-
-            if (obj->AnimationOffset < 0)
-            {
-                obj->AnimationOffset++;
-            }
-        }
-        else
-        {
-            if (obj->CurrentScreen)
-            {
-                obj->CurrentScreen->OnTimeTickCallBack();
-            }
-        }
-            
-
-        if (obj->TimerTicks < 0xFFFFFFFF)
-        {
-            if (obj->TimerTicks != 0)
-            {
-                obj->TimerTicks--;
-
-                if (!obj->TimerTicks)
-                {
-                    gtimerStop(&obj->Gtimer);
-                }
-            }
-
-        }
-        
-
-
-
-    };
-
-
-    if (nTicks == 0)
-    {
-        autoreload = false;
-    }
-
-    gtimerStart(&Gtimer, TimerCallBack, this, autoreload, period);
-}
-
-
-void UGFX_GuiAppBase::TimerStop()
-{
-    gtimerStop(&Gtimer);
 }
