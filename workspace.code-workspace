@@ -6,7 +6,9 @@
 	],
 	"settings": {
 		"files.associations": {
-			"file1.h": "c"
+			"file1.h": "c",
+			"gwin_class.h": "c",
+			"compare": "cpp"
 		}
 	}
 }

@@ -35,7 +35,7 @@
 //#define GFX_USE_OS_CHIBIOS                           FALSE
 #define GFX_USE_OS_FREERTOS                          TRUE
 //    #define GFX_FREERTOS_USE_TRACE                   FALSE
-//#define GFX_USE_OS_WIN32                             FALSE
+// #define GFX_USE_OS_WIN32                             TRUE
 //#define GFX_USE_OS_LINUX                             FALSE
 //#define GFX_USE_OS_OSX                               FALSE
 //#define GFX_USE_OS_ECOS                              FALSE
@@ -58,7 +58,7 @@
 //    #define GFX_CPU_ENDIAN                           GFX_CPU_ENDIAN_UNKNOWN
     #define GFX_OS_HEAP_SIZE                           40960
     #define GFX_OS_NO_INIT                             TRUE
-//    #define GFX_OS_INIT_NO_WARNING                   FALSE
+    #define GFX_OS_INIT_NO_WARNING                     TRUE
 //    #define GFX_OS_PRE_INIT_FUNCTION                 myHardwareInitRoutine
 //    #define GFX_OS_EXTRA_INIT_FUNCTION               myOSInitRoutine
 //    #define GFX_OS_EXTRA_DEINIT_FUNCTION             myOSDeInitRoutine
@@ -74,8 +74,8 @@
 
 //#define GDISP_NEED_AUTOFLUSH                         FALSE
 //#define GDISP_NEED_TIMERFLUSH                        FALSE
-//#define GDISP_NEED_VALIDATION                        TRUE
-//#define GDISP_NEED_CLIP                              TRUE
+#define GDISP_NEED_VALIDATION                        TRUE
+#define GDISP_NEED_CLIP                              TRUE
 //#define GDISP_NEED_CIRCLE                            FALSE
 //#define GDISP_NEED_DUALCIRCLE                        FALSE
 //#define GDISP_NEED_ELLIPSE                           FALSE
@@ -84,10 +84,10 @@
 //#define GDISP_NEED_CONVEX_POLYGON                    FALSE
 //#define GDISP_NEED_SCROLL                            FALSE
 //#define GDISP_NEED_PIXELREAD                         FALSE
-//#define GDISP_NEED_CONTROL                           FALSE
+#define GDISP_NEED_CONTROL                           TRUE
 //#define GDISP_NEED_QUERY                             FALSE
-//#define GDISP_NEED_MULTITHREAD                       FALSE
-//#define GDISP_NEED_STREAMING                         FALSE
+#define GDISP_NEED_MULTITHREAD                       TRUE
+#define GDISP_NEED_STREAMING                         TRUE
 #define GDISP_NEED_TEXT                              TRUE
 //    #define GDISP_NEED_TEXT_WORDWRAP                 FALSE
 //    #define GDISP_NEED_TEXT_BOXPADLR                 1
@@ -116,7 +116,7 @@
 //    #define GDISP_INCLUDE_FONT_DEJAVUSANSBOLD12_AA   FALSE
 //    #define GDISP_INCLUDE_USER_FONTS                 FALSE
 
-//#define GDISP_NEED_IMAGE                             FALSE
+#define GDISP_NEED_IMAGE                             TRUE
 //    #define GDISP_NEED_IMAGE_NATIVE                  FALSE
 //    #define GDISP_NEED_IMAGE_GIF                     FALSE
 //        #define GDISP_IMAGE_GIF_BLIT_BUFFER_SIZE     32
@@ -131,9 +131,9 @@
 //        #define GDISP_NEED_IMAGE_BMP_32              TRUE
 //        #define GDISP_IMAGE_BMP_BLIT_BUFFER_SIZE     32
 //    #define GDISP_NEED_IMAGE_JPG                     FALSE
-//    #define GDISP_NEED_IMAGE_PNG                     FALSE
+    #define GDISP_NEED_IMAGE_PNG                     TRUE
 //        #define GDISP_NEED_IMAGE_PNG_INTERLACED      FALSE
-//        #define GDISP_NEED_IMAGE_PNG_TRANSPARENCY    TRUE
+        #define GDISP_NEED_IMAGE_PNG_TRANSPARENCY    TRUE
 //        #define GDISP_NEED_IMAGE_PNG_BACKGROUND      TRUE
 //        #define GDISP_NEED_IMAGE_PNG_ALPHACLIFF      32
 //        #define GDISP_NEED_IMAGE_PNG_PALETTE_124     TRUE
@@ -193,9 +193,9 @@
 ///////////////////////////////////////////////////////////////////////////
 #define GFX_USE_GWIN                                 TRUE
 
-//#define GWIN_NEED_WINDOWMANAGER                      FALSE
-//    #define GWIN_REDRAW_IMMEDIATE                    FALSE
-//    #define GWIN_REDRAW_SINGLEOP                     FALSE
+#define GWIN_NEED_WINDOWMANAGER                      TRUE
+//    #define GWIN_REDRAW_IMMEDIATE                    TRUE
+//    #define GWIN_REDRAW_SINGLEOP                     TRUE
 //    #define GWIN_NEED_FLASHING                       FALSE
 //        #define GWIN_FLASHING_PERIOD                 250
 
@@ -209,7 +209,7 @@
 //#define GWIN_NEED_GRAPH                              FALSE
 //#define GWIN_NEED_GL3D                               FALSE
 
-//#define GWIN_NEED_WIDGET                             FALSE
+#define GWIN_NEED_WIDGET                             TRUE
 //#define GWIN_FOCUS_HIGHLIGHT_WIDTH                   1
 //    #define GWIN_NEED_LABEL                          FALSE
 //        #define GWIN_LABEL_ATTRIBUTE                 FALSE
@@ -220,7 +220,7 @@
 //        #define GWIN_SLIDER_DEAD_BAND                5
 //        #define GWIN_SLIDER_TOGGLE_INC               20
 //    #define GWIN_NEED_CHECKBOX                       FALSE
-//    #define GWIN_NEED_IMAGE                          FALSE
+    #define GWIN_NEED_IMAGE                          TRUE
 //        #define GWIN_NEED_IMAGE_ANIMATION            FALSE
 //    #define GWIN_NEED_RADIO                          FALSE
 //    #define GWIN_NEED_LIST                           FALSE
@@ -250,7 +250,7 @@
 ///////////////////////////////////////////////////////////////////////////
 // GEVENT                                                                //
 ///////////////////////////////////////////////////////////////////////////
-//#define GFX_USE_GEVENT                               FALSE
+#define GFX_USE_GEVENT                               TRUE
 
 //#define GEVENT_ASSERT_NO_RESOURCE                    FALSE
 //#define GEVENT_MAXIMUM_SIZE                          32
@@ -260,18 +260,18 @@
 ///////////////////////////////////////////////////////////////////////////
 // GTIMER                                                                //
 ///////////////////////////////////////////////////////////////////////////
-//#define GFX_USE_GTIMER                               FALSE
+#define GFX_USE_GTIMER                               TRUE
 
 //#define GTIMER_THREAD_PRIORITY                       HIGH_PRIORITY
-//#define GTIMER_THREAD_WORKAREA_SIZE                  2048
+#define GTIMER_THREAD_WORKAREA_SIZE                  2048
 
 
 ///////////////////////////////////////////////////////////////////////////
 // GQUEUE                                                                //
 ///////////////////////////////////////////////////////////////////////////
-//#define GFX_USE_GQUEUE                               FALSE
+#define GFX_USE_GQUEUE                               TRUE
 
-//#define GQUEUE_NEED_ASYNC                            FALSE
+#define GQUEUE_NEED_ASYNC                            TRUE
 //#define GQUEUE_NEED_GSYNC                            FALSE
 //#define GQUEUE_NEED_FSYNC                            FALSE
 //#define GQUEUE_NEED_BUFFERS                          FALSE
@@ -304,7 +304,7 @@
 ///////////////////////////////////////////////////////////////////////////
 // GFILE                                                                 //
 ///////////////////////////////////////////////////////////////////////////
-//#define GFX_USE_GFILE                                FALSE
+#define GFX_USE_GFILE                                TRUE
 
 //#define GFILE_NEED_PRINTG                            FALSE
 //#define GFILE_NEED_SCANG                             FALSE
@@ -314,8 +314,8 @@
 //#define GFILE_NEED_NOAUTOMOUNT                       FALSE
 //#define GFILE_NEED_NOAUTOSYNC                        FALSE
 
-//#define GFILE_NEED_MEMFS                             FALSE
-//#define GFILE_NEED_ROMFS                             FALSE
+//#define GFILE_NEED_MEMFS                             TRUE
+#define GFILE_NEED_ROMFS                             TRUE
 //#define GFILE_NEED_RAMFS                             FALSE
 //#define GFILE_NEED_FATFS                             FALSE
 //#define GFILE_NEED_NATIVEFS                          FALSE
@@ -324,7 +324,7 @@
 
 //#define GFILE_ALLOW_FLOATS                           FALSE
 //#define GFILE_ALLOW_DEVICESPECIFIC                   FALSE
-//#define GFILE_MAX_GFILES                             3
+#define GFILE_MAX_GFILES                             10
 
 ///////////////////////////////////////////////////////////////////////////
 // GADC                                                                  //
