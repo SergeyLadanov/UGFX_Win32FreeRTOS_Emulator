@@ -9,7 +9,7 @@ protected:
     UGFX_PresenterBase *NextPresenter = nullptr;
     UGFX_ScreenBase *NextScreen = nullptr;
     UGFX_AppTimer Timer;
-
+    uint16_t AnimationStep = 1;
 public:
 
     UGFX_GuiAppAnimationBase()
@@ -21,8 +21,8 @@ public:
 
             if (obj->NextScreen)
             {
-                obj->NextScreen->MoveOn(0, 20);
-                obj->CurrentScreen->MoveOn(0, 20);
+                obj->NextScreen->MoveOn(0, obj->AnimationStep);
+                obj->CurrentScreen->MoveOn(0, obj->AnimationStep);
             }
         };
 
@@ -50,7 +50,7 @@ public:
 
 
     template <typename TApp, typename TScreen, typename TPresenter>
-    void GoToScreenAnimation(void)
+    void GoToScreenAnimation(uint16_t step, uint32_t period)
     {
         NextScreen = new TScreen();
 
@@ -66,7 +66,8 @@ public:
                 NextPresenter->Activate();
             }
             NextScreen->Show();
-            Timer.Start(25, gdispGetHeight()/20);
+            AnimationStep = step;
+            Timer.Start(period, gdispGetHeight()/AnimationStep);
         }
     }
 
