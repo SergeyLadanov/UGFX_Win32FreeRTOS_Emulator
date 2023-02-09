@@ -1,7 +1,7 @@
 #include "UGFX_GuiAppBase.hpp"
 
 
-void UGFX_GuiAppBase::Start()
+void UGFX_GuiAppBase::Start(uint32_t task_stack)
 {
     auto GuiTask = [](void *arg)
     {
@@ -24,14 +24,17 @@ void UGFX_GuiAppBase::Start()
             printf("Event processed!\r\n");
             if (obj->CurrentScreen)
             {
-                obj->CurrentScreen->HandleUgfxEvent(pe);
+                if (obj->ScreenReady)
+                {
+                    obj->CurrentScreen->HandleUgfxEvent(pe);
+                }  
             }
         }
     };
 
     // GuiTask(this);
 
-    gfxThreadCreate(nullptr, CONFIG_TASK_STACK_SIZE, gThreadpriorityLow, GuiTask, this);
+    gfxThreadCreate(nullptr, task_stack, gThreadpriorityLow, GuiTask, this);
 }
 
 
@@ -39,6 +42,7 @@ void UGFX_GuiAppBase::Start()
 
 void UGFX_GuiAppBase::DestroyScreen()
 {
+    ScreenReady = false;
     if (CurrentPresenter)
     {
         CurrentPresenter->DeActivate();

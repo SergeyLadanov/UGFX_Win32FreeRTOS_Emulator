@@ -41,6 +41,8 @@ public:
             obj->NextScreen = nullptr;
 
             obj->CurrentScreen->SetPos(0, 0);
+
+            obj->ScreenReady = true;
         };
 
         Timer.SetArg(this);
@@ -53,6 +55,8 @@ public:
     void GoToScreenAnimation(uint16_t step, uint32_t period)
     {
         NextScreen = new TScreen();
+
+        ScreenReady = false;
 
         if (NextScreen)
         {

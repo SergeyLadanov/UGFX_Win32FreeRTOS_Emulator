@@ -10,10 +10,10 @@
 class UGFX_GuiAppBase
 {
 protected:
-    static constexpr uint32_t CONFIG_TASK_STACK_SIZE = 512;
     UGFX_ScreenBase *CurrentScreen = nullptr;
     UGFX_PresenterBase *CurrentPresenter = nullptr;
     GListener Gl;
+    bool ScreenReady = false;
 public:
 
     template <typename TApp, typename TScreen, typename TPresenter>
@@ -35,6 +35,8 @@ public:
             }
 
             CurrentScreen->Show();
+
+            ScreenReady = true;
         }
     }
 
@@ -51,7 +53,7 @@ public:
         return (TView *) CurrentScreen;
     }
 
-    void Start();
+    void Start(uint32_t task_stack = 512);
 
     void DestroyScreen();
 
