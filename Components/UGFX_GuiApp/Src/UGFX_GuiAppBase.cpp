@@ -30,6 +30,8 @@ void UGFX_GuiAppBase::Start(uint32_t task_stack)
                     obj->CurrentScreen->HandleUgfxEvent(pe);
                 }  
             }
+
+            obj->HandleUgfxEvent(pe);
         }
 
         gfxThreadReturn(0);

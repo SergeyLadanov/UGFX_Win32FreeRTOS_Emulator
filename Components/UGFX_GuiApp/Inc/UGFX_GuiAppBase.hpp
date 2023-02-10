@@ -63,6 +63,12 @@ protected:
     {
 
     }
+
+
+    virtual void HandleUgfxEvent(GEvent* pe)
+    {
+
+    }
 };
 
 #endif
