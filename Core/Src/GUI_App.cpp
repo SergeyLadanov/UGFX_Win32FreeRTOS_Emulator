@@ -7,7 +7,6 @@ void GUI_App::OnInitCallBack(void)
 {
     gdispClear(Black);
     gwinSetDefaultFont(gdispOpenFont("UI2"));
-    gwinAttachListener(&Gl);
     geventAttachSource(&Gl, ginputGetKeyboard(GKEYBOARD_ALL_INSTANCES), 0);
     GoToMainScreen();
 }

@@ -11,6 +11,7 @@ void UGFX_GuiAppBase::Start(uint32_t task_stack)
 
         gfxInit();
         geventListenerInit(&obj->Gl);
+        gwinAttachListener(&obj->Gl);
         obj->OnInitCallBack();
 
         for(;;)
