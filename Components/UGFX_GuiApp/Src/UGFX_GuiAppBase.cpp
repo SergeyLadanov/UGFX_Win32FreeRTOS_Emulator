@@ -10,19 +10,12 @@ void UGFX_GuiAppBase::Start(uint32_t task_stack)
         GEvent* pe;
 
         gfxInit();
-        gdispClear(Black);
-        gwinSetDefaultFont(gdispOpenFont("UI2"));
-
         geventListenerInit(&obj->Gl);
-        gwinAttachListener(&obj->Gl);
-        geventAttachSource(&obj->Gl, ginputGetKeyboard(GKEYBOARD_ALL_INSTANCES), 0);
-
         obj->OnInitCallBack();
 
         for(;;)
         {
             pe = geventEventWait(&obj->Gl, TIME_INFINITE);
-            printf("Event processed!\r\n");
             if (obj->CurrentScreen)
             {
                 if (obj->ScreenReady)
