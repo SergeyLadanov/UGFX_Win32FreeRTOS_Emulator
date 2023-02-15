@@ -22,22 +22,28 @@ public:
         DestroyScreen();
 
         CurrentScreen = new TScreen();
+        
         if (CurrentScreen)
         {
-            CurrentScreen->OnSetupScreen();
-
             CurrentPresenter = new TPresenter(*(TScreen *) CurrentScreen);
 
             if (CurrentPresenter)
             {
                 ((TScreen *) CurrentScreen)->Bind(*(TApp *) this, *(TPresenter *) CurrentPresenter);
-                CurrentPresenter->Activate();
             }
-
-            CurrentScreen->Show();
-
-            ScreenReady = true;
         }
+    }
+
+
+    void EndScreenTransaction(void)
+    {
+        CurrentScreen->OnSetupScreen();
+
+        CurrentPresenter->Activate();
+
+        CurrentScreen->Show();
+
+        ScreenReady = true;
     }
 
 

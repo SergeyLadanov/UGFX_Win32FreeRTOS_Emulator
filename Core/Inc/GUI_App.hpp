@@ -24,6 +24,7 @@ public:
     {
         UGFX_GuiAppAnimationBase::GoToScreen<typeof(*this), TScreen, TPresenter>();
         GetCurrentPresenter<TPresenter>()->BindModel(&ModelRef);
+        EndScreenTransaction();
     }
 
 
@@ -32,6 +33,7 @@ public:
     {
         UGFX_GuiAppAnimationBase::GoToScreenAnimation<typeof(*this), TScreen, TPresenter>(20, 20, ANIMATION_RIGHT_TO_LEFT);
         GetNextPresenter<TPresenter>()->BindModel(&ModelRef);
+        EndScreenAnimationTransaction();
     }
     
     void GoToMainScreen(void);

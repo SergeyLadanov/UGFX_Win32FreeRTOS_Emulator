@@ -20,7 +20,8 @@ protected:
     UGFX_AppTimer Timer;
     int16_t X_Step = 0;
     int16_t Y_Step = 0;
-    bool StepDirection = true;
+    uint32_t TransactionPeriod = 0;
+    uint32_t TransactionStepNumber = 0;
 public:
 
     UGFX_GuiAppAnimationBase()
@@ -114,18 +115,33 @@ public:
         if (NextScreen)
         {
             NextScreen->SetPos(StartPosX, StartPosY);
-            NextScreen->OnSetupScreen();
-
+            
             NextPresenter = new TPresenter(*(TScreen *) NextScreen);
             if (NextPresenter)
             {
                 ((TScreen *) NextScreen)->Bind(*(TApp *) this, *(TPresenter *) NextPresenter);
-                NextPresenter->Activate();
+                
             }
-            NextScreen->Show();
-            Timer.Start(period, Length/step);
+            
+            TransactionPeriod = period;
+            TransactionStepNumber = Length/step;
         }
     }
+
+
+    void EndScreenAnimationTransaction(void)
+    {
+        NextScreen->OnSetupScreen();
+
+        NextPresenter->Activate();
+
+        NextScreen->Show();
+
+        Timer.Start(TransactionPeriod, TransactionStepNumber);
+    }
+
+
+
 
 
     template <typename TPresenter>
