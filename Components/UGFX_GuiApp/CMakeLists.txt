@@ -23,4 +23,3 @@ include_directories(
 add_library(${COMPONENT_NAME} STATIC ${SOURCE_LIB})
 
 Depends_On(UGFX)
-Depends_On(FreeRTOS)
