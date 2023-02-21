@@ -35,18 +35,6 @@ public:
     }
 
 
-    void EndScreenTransaction(void)
-    {
-        CurrentScreen->OnSetupScreen();
-
-        CurrentPresenter->Activate();
-
-        CurrentScreen->Show();
-
-        ScreenReady = true;
-    }
-
-
     template <typename TPresenter>
     inline TPresenter* GetCurrentPresenter()
     {
@@ -63,18 +51,15 @@ public:
 
     void DestroyScreen();
 
+    void EndScreenTransaction(void);
+
 protected:
 
-    virtual void OnInitCallBack(void)
-    {
+    static gThreadreturn GuiTask(void *arg);
 
-    }
-
-
-    virtual void HandleUgfxEvent(GEvent* pe)
-    {
-
-    }
+    virtual void OnInitCallBack(void);
+    
+    virtual void HandleUgfxEvent(GEvent* pe);
 };
 
 #endif

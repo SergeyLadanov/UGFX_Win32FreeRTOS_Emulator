@@ -22,45 +22,14 @@ protected:
     int16_t Y_Step = 0;
     uint32_t TransactionPeriod = 0;
     uint32_t TransactionStepNumber = 0;
+
+    static void AnimationTickCallBack(void *arg);
+    static void AnimationEndCallBack(void *arg);
 public:
 
-    UGFX_GuiAppAnimationBase()
-    {
-        auto AnimationTick = [](void *arg)
-        {
-            UGFX_GuiAppAnimationBase *obj = (UGFX_GuiAppAnimationBase *) arg;
-            // printf("Animation timer tick...\r\n");
+    UGFX_GuiAppAnimationBase();
 
-            if (obj->NextScreen)
-            {
-                obj->NextScreen->MoveOn(obj->X_Step, obj->Y_Step);
-                obj->CurrentScreen->MoveOn(obj->X_Step, obj->Y_Step);
-            }
-        };
-
-
-        auto AnimationEnd = [](void *arg)
-        {
-            UGFX_GuiAppAnimationBase *obj = (UGFX_GuiAppAnimationBase *) arg;
-            // printf("Animation timer stopped...\r\n");
-
-            obj->DestroyScreen();
-
-            obj->CurrentPresenter = obj->NextPresenter;
-            obj->NextPresenter = nullptr;
-
-            obj->CurrentScreen = obj->NextScreen;
-            obj->NextScreen = nullptr;
-
-            obj->CurrentScreen->SetPos(0, 0);
-
-            obj->ScreenReady = true;
-        };
-
-        Timer.SetArg(this);
-        Timer.SetTickCallBack(AnimationTick);
-        Timer.SetEndCallBack(AnimationEnd);
-    }
+    void EndScreenAnimationTransaction(void);
 
 
     template <typename TApp, typename TScreen, typename TPresenter>
@@ -127,21 +96,6 @@ public:
             TransactionStepNumber = Length/step;
         }
     }
-
-
-    void EndScreenAnimationTransaction(void)
-    {
-        NextScreen->OnSetupScreen();
-
-        NextPresenter->Activate();
-
-        NextScreen->Show();
-
-        Timer.Start(TransactionPeriod, TransactionStepNumber);
-    }
-
-
-
 
 
     template <typename TPresenter>

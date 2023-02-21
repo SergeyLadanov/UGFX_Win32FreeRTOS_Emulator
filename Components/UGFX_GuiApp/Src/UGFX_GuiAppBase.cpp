@@ -1,40 +1,39 @@
 #include "UGFX_GuiAppBase.hpp"
 
 
-void UGFX_GuiAppBase::Start(uint32_t task_stack)
+
+gThreadreturn UGFX_GuiAppBase::GuiTask(void *arg)
 {
-    
-    auto GuiTask = [](void *arg)->gThreadreturn
+    UGFX_GuiAppBase* obj = (UGFX_GuiAppBase *) arg;
+    GEvent* pe;
+
+    gfxInit();
+    geventListenerInit(&obj->Gl);
+    gwinAttachListener(&obj->Gl);
+    obj->OnInitCallBack();
+
+    for(;;)
     {
-        UGFX_GuiAppBase* obj = (UGFX_GuiAppBase *) arg;
-        GEvent* pe;
-
-        gfxInit();
-        geventListenerInit(&obj->Gl);
-        gwinAttachListener(&obj->Gl);
-        obj->OnInitCallBack();
-
-        for(;;)
+        pe = geventEventWait(&obj->Gl, TIME_INFINITE);
+        if (obj->CurrentScreen)
         {
-            pe = geventEventWait(&obj->Gl, TIME_INFINITE);
-            if (obj->CurrentScreen)
+            if (obj->ScreenReady)
             {
-                if (obj->ScreenReady)
-                {
-                    obj->CurrentScreen->HandleUgfxEvent(pe);
-                }  
-            }
-
-            obj->HandleUgfxEvent(pe);
+                obj->CurrentScreen->HandleUgfxEvent(pe);
+            }  
         }
 
-        gfxThreadReturn(0);
-    };
+        obj->HandleUgfxEvent(pe);
+    }
 
-    gfxThreadCreate(nullptr, task_stack, gThreadpriorityLow, GuiTask, this);
+    gfxThreadReturn(0);
 }
 
 
+void UGFX_GuiAppBase::Start(uint32_t task_stack)
+{
+    gfxThreadCreate(nullptr, task_stack, gThreadpriorityLow, GuiTask, this);
+}
 
 
 void UGFX_GuiAppBase::DestroyScreen()
@@ -53,4 +52,28 @@ void UGFX_GuiAppBase::DestroyScreen()
         delete CurrentScreen;
         CurrentScreen = nullptr;
     }
+}
+
+
+void UGFX_GuiAppBase::EndScreenTransaction(void)
+{
+    CurrentScreen->OnSetupScreen();
+
+    CurrentPresenter->Activate();
+
+    CurrentScreen->Show();
+
+    ScreenReady = true;
+}
+
+
+void UGFX_GuiAppBase::OnInitCallBack(void)
+{
+
+}
+
+
+void UGFX_GuiAppBase::HandleUgfxEvent(GEvent* pe)
+{
+
 }
