@@ -47,7 +47,7 @@ public:
         return (TView *) CurrentScreen;
     }
 
-    void Start(uint32_t task_stack = 512);
+    void Start(uint32_t task_stack = 512, gThreadpriority prio = gThreadpriorityLow);
 
     void DestroyScreen();
 
@@ -57,9 +57,14 @@ protected:
 
     static gThreadreturn GuiTask(void *arg);
 
+    static void EventCallBack(void *param, GEvent *pe);
+
     virtual void OnInitCallBack(void);
     
     virtual void HandleUgfxEvent(GEvent* pe);
+
+    virtual void GuiLoop(void);
+ 
 };
 
 #endif
